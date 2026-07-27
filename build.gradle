@@ -35,6 +35,8 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.6.3'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
+	// Open API(Swagger)
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.12'
 }
 
 tasks.named('test') {
