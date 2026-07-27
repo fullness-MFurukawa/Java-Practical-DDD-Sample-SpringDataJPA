@@ -13,8 +13,8 @@ spring:
       connection-timeout: 30000   # ミリ秒
   jpa:
     hibernate:
-      ddl-auto: none        # スキーマはSQLで管理するため自動生成しない
+      ddl-auto: none        # 既存スキーマを使う（Hibernateにテーブルを作らせない）
+    open-in-view: false     # ビュー層への遅延ロードを禁止（@Transactionalで完結させる）
     properties:
       hibernate:
         format_sql: true
-    show-sql: false
