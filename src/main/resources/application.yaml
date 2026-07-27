@@ -1,3 +1,20 @@
 spring:
   application:
     name: practical_sample_springdatajpa
+  datasource:
+    url: jdbc:postgresql://localhost:5432/restapi_exercise
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:training}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: ddd-demo-pool
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000   # ミリ秒
+  jpa:
+    hibernate:
+      ddl-auto: none        # スキーマはSQLで管理するため自動生成しない
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false

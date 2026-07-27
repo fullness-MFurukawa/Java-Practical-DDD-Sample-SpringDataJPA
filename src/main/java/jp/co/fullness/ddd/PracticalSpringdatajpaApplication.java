@@ -1,13 +1,13 @@
-package jp.co.fullness.ddd.sample;
+package jp.co.fullness.ddd;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PracticalSampleSpringdatajpaApplication {
+public class PracticalSpringdatajpaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PracticalSampleSpringdatajpaApplication.class, args);
+		SpringApplication.run(PracticalSpringdatajpaApplication.class, args);
 	}
 
 }
