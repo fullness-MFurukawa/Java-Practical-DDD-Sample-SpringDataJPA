@@ -153,6 +153,11 @@ implements <a href="../../domain/model/product/ProductRepository.html" title="jp
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">商品名を指定して商品を取得する。</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(jp.co.fullness.ddd.domain.model.product.Product)" class="member-name-link">update</a><wbr>(<a href="../../domain/model/product/Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス">Product</a>&nbsp;product)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">既存の商品を変更(更新)する。</div>
+</div>
 </div>
 </div>
 </div>
@@ -205,6 +210,30 @@ implements <a href="../../domain/model/product/ProductRepository.html" title="jp
 </section>
 </li>
 <li>
+<section class="detail" id="update(jp.co.fullness.ddd.domain.model.product.Product)">
+<h3>update</h3>
+<div class="member-signature"><span class="annotations">@Transactional
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="../../domain/model/product/Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス">Product</a>&nbsp;product)</span></div>
+<div class="block"><span class="description-from-type-label">インタフェースからコピーされた説明:&nbsp;<code><a href="../../domain/model/product/ProductRepository.html#update(jp.co.fullness.ddd.domain.model.product.Product)">ProductRepository</a></code></span></div>
+<div class="block">既存の商品を変更(更新)する。
+
+ <p>ドメイン上の変更操作(例：「商品を変更する」ユースケース)で呼び出されます。
+ <br>商品ID(<a href="../../domain/model/product/ProductId.html" title="jp.co.fullness.ddd.domain.model.product内のクラス"><code>ProductId</code></a>)で対象を特定し、商品名・単価・在庫数などの状態を
+ 永続化層に反映します。集約ルートである <a href="../../domain/model/product/Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス"><code>Product</code></a> を通じて、
+ 保持する在庫(<code>Stock</code>)も含めて一括で更新することを想定します。
+
+ <p>商品名の一意性(同名商品の重複不可)は、更新対象の商品自身を除外して
+ 判定する必要があるため、ユースケース層で <a href="../../domain/model/product/ProductRepository.html#findByName(jp.co.fullness.ddd.domain.model.product.ProductName)"><code>ProductRepository.findByName(ProductName)</code></a> を用いて
+ 「同名商品が存在し、かつその商品IDが更新対象と異なる場合のみ不可」と検証することを想定します。</div>
+<dl class="notes">
+<dt>定義:</dt>
+<dd><code><a href="../../domain/model/product/ProductRepository.html#update(jp.co.fullness.ddd.domain.model.product.Product)">update</a></code>&nbsp;インタフェース内&nbsp;<code><a href="../../domain/model/product/ProductRepository.html" title="jp.co.fullness.ddd.domain.model.product内のインタフェース">ProductRepository</a></code></dd>
+<dt>パラメータ:</dt>
+<dd><code>product</code> - 変更内容を反映済みの <a href="../../domain/model/product/Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス"><code>Product</code></a> エンティティ(商品IDで対象を特定する)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="existsByName(jp.co.fullness.ddd.domain.model.product.ProductName)">
 <h3>existsByName</h3>
 <div class="member-signature"><span class="annotations">@Transactional(readOnly=true)
@@ -233,7 +262,8 @@ implements <a href="../../domain/model/product/ProductRepository.html" title="jp
 <div class="block">商品IDを指定して商品を取得する。
 
  <p>主キー検索に対応し、結果が存在しない場合は <code>Optional.empty()</code> を返します。
- <br>この操作は通常、ユースケース「商品詳細の表示」や「登録確認」などで使用されます。</div>
+ <br>この操作は通常、ユースケース「商品詳細の表示」や「登録確認」、
+ 「商品を変更する」ユースケースにおける変更前の取得などで使用されます。</div>
 <dl class="notes">
 <dt>定義:</dt>
 <dd><code><a href="../../domain/model/product/ProductRepository.html#findById(jp.co.fullness.ddd.domain.model.product.ProductId)">findById</a></code>&nbsp;インタフェース内&nbsp;<code><a href="../../domain/model/product/ProductRepository.html" title="jp.co.fullness.ddd.domain.model.product内のインタフェース">ProductRepository</a></code></dd>
@@ -252,7 +282,8 @@ implements <a href="../../domain/model/product/ProductRepository.html" title="jp
 <div class="block"><span class="description-from-type-label">インタフェースからコピーされた説明:&nbsp;<code><a href="../../domain/model/product/ProductRepository.html#findByName(jp.co.fullness.ddd.domain.model.product.ProductName)">ProductRepository</a></code></span></div>
 <div class="block">商品名を指定して商品を取得する。
 
- <p>主に「商品名で検索する」ユースケースや「登録済み商品の重複確認」などで利用されます。</div>
+ <p>主に「商品名で検索する」ユースケースや「登録済み商品の重複確認」などで利用されます。
+ <br>「商品を変更する」ユースケースでは、同名商品の重複判定(自分自身を除く)にも利用します。</div>
 <dl class="notes">
 <dt>定義:</dt>
 <dd><code><a href="../../domain/model/product/ProductRepository.html#findByName(jp.co.fullness.ddd.domain.model.product.ProductName)">findByName</a></code>&nbsp;インタフェース内&nbsp;<code><a href="../../domain/model/product/ProductRepository.html" title="jp.co.fullness.ddd.domain.model.product内のインタフェース">ProductRepository</a></code></dd>

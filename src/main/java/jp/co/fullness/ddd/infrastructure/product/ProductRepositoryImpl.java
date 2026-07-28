@@ -72,6 +72,39 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    @Transactional
+    public void update(Product product) {
+        if (product == null) {
+            throw new DomainException("商品は必須です。");
+        }
+        try {
+            // 変更対象の管理下(managed)エンティティを product_uuid で取得する
+            ProductEntity managed = productJpaRepository
+                    .findByProductUuid(product.getProductId().value())
+                    .orElseThrow(() -> new InternalException("更新対象の商品が見つかりませんでした。"));
+
+            // ドメインの変更後の状態を管理下エンティティに反映する
+            // ※カテゴリは「商品を変更する」ユースケースの変更対象外のため触らない
+            managed.setName(product.getName().value());
+            managed.setPrice(product.getPrice().value());
+            // 在庫は同一の子エンティティ（同じ stock_uuid）の数量のみを変更する
+            managed.getStock().setStock(product.getStock().getQuantity().value());
+
+            // managed エンティティのためダーティチェックで UPDATE されるが、明示的に save して意図を示す
+            productJpaRepository.save(managed);
+
+        } catch (DomainException ex) {
+            throw ex;          // ドメイン例外はそのまま伝播させる
+        } catch (InternalException ex) {
+            throw ex;          // 自前で投げた InternalException を generic catch で二重ラップしない
+        } catch (DataAccessException ex) {
+            throw new InternalException("商品変更中にデータベースエラーが発生しました。", ex);
+        } catch (Exception ex) {
+            throw new InternalException("商品変更処理中に予期しないエラーが発生しました。", ex);
+        }
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public boolean existsByName(ProductName productName) {
         if (productName == null) {

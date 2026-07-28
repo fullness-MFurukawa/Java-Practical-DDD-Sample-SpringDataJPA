@@ -9,7 +9,6 @@ import jp.co.fullness.ddd.domain.model.product.Product;
 import jp.co.fullness.ddd.domain.model.product.ProductId;
 import jp.co.fullness.ddd.domain.model.product.ProductName;
 import jp.co.fullness.ddd.domain.model.product.ProductRepository;
-
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -34,6 +33,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void existsProductExcept(ProductName productName, ProductId productId) {
+        // 同名商品を検索する。存在しなければ重複なし（何もしない）。
+        repository.findByName(productName).ifPresent(existing -> {
+            // 同名商品が存在しても、それが更新対象自身なら重複ではない。
+            // 「同名商品が存在し、かつその商品IDが更新対象と異なる場合のみ」例外とする。
+            if (!existing.getProductId().equals(productId)) {
+                throw new ExistsException(
+                        String.format("商品名:[%s]は既に登録済みです。", productName.value()));
+            }
+        });
+    }
+
+    @Override
     public Product getProductById(ProductId productId) {
         return repository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(
@@ -50,5 +62,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void addProduct(Product product) {
         repository.create(product);
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        repository.update(product);
     }
 }

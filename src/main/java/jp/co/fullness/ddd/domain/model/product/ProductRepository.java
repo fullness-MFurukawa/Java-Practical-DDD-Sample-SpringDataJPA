@@ -28,6 +28,7 @@ import java.util.Optional;
  * <p>【責務】
  * <ul>
  *   <li>商品エンティティの新規登録(永続化)</li>
+ *   <li>商品エンティティの変更(更新)</li>
  *   <li>商品名の一意性確認(存在チェック)</li>
  *   <li>商品IDまたは商品名による検索</li>
  * </ul>
@@ -57,6 +58,22 @@ public interface ProductRepository {
     void create(Product product);
 
     /**
+     * 既存の商品を変更(更新)する。
+     *
+     * <p>ドメイン上の変更操作(例：「商品を変更する」ユースケース)で呼び出されます。
+     * <br>商品ID({@link ProductId})で対象を特定し、商品名・単価・在庫数などの状態を
+     * 永続化層に反映します。集約ルートである {@link Product} を通じて、
+     * 保持する在庫({@code Stock})も含めて一括で更新することを想定します。
+     *
+     * <p>商品名の一意性(同名商品の重複不可)は、更新対象の商品自身を除外して
+     * 判定する必要があるため、ユースケース層で {@link #findByName(ProductName)} を用いて
+     * 「同名商品が存在し、かつその商品IDが更新対象と異なる場合のみ不可」と検証することを想定します。
+     *
+     * @param product 変更内容を反映済みの {@link Product} エンティティ(商品IDで対象を特定する)
+     */
+    void update(Product product);
+
+    /**
      * 指定された商品名が既に存在するかを確認する。
      *
      * <p>商品名の一意制約をドメインルールとして実現するために利用されます。
@@ -71,7 +88,8 @@ public interface ProductRepository {
      * 商品IDを指定して商品を取得する。
      *
      * <p>主キー検索に対応し、結果が存在しない場合は {@code Optional.empty()} を返します。
-     * <br>この操作は通常、ユースケース「商品詳細の表示」や「登録確認」などで使用されます。
+     * <br>この操作は通常、ユースケース「商品詳細の表示」や「登録確認」、
+     * 「商品を変更する」ユースケースにおける変更前の取得などで使用されます。
      *
      * @param productId 商品ID(値オブジェクト)
      * @return 存在する場合は {@link Product} を保持する {@code Optional}、存在しない場合は {@code Optional.empty()}
@@ -82,10 +100,10 @@ public interface ProductRepository {
      * 商品名を指定して商品を取得する。
      *
      * <p>主に「商品名で検索する」ユースケースや「登録済み商品の重複確認」などで利用されます。
+     * <br>「商品を変更する」ユースケースでは、同名商品の重複判定(自分自身を除く)にも利用します。
      *
      * @param productName 商品名(値オブジェクト)
      * @return 存在する場合は {@link Product} を保持する {@code Optional}、存在しない場合は {@code Optional.empty()}
      */
     Optional<Product> findByName(ProductName productName);
 }
-

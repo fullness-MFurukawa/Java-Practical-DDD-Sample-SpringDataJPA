@@ -30,6 +30,22 @@
 
 ---
 
+## 実装ユースケース
+
+研修テキストのユースケース記述に対応する 3 ユースケースを実装しています。
+
+| ユースケース | 概要 | 主なエンドポイント |
+|---|---|---|
+| 商品を名前で検索する | 商品名（完全一致）で商品の詳細を取得する | `GET /api/products/search?name=...` |
+| 商品を登録する | 名称・単価・カテゴリ・初期在庫で新規商品を登録する（同名不可） | `POST /api/products` |
+| 商品を変更する | 既存商品の名称・単価・在庫数を変更する（カテゴリは変更対象外・同名不可） | `GET` / `PUT /api/products/{id}` |
+
+> 「商品を変更する」の同名重複チェックは、更新対象の商品自身を除外し、「同名商品が存在し、かつその商品IDが更新対象と異なる場合のみ」重複（409）とします。名称を変更しない更新を許可するためです。
+>
+> JPA 実装では、変更時に `product_uuid` で管理下（managed）エンティティを取得し、名称・単価と在庫（子エンティティの数量）を書き換えて保存します。在庫は同一の `stock_uuid` を保ったまま数量のみを更新するため、`orphanRemoval` による在庫の作り直しは起きません。
+
+---
+
 ## アーキテクチャ
 
 ```
@@ -66,10 +82,10 @@ jp.co.fullness.ddd
 │   ├── dto                      … CategoryDTO / ProductDTO / StockDTO
 │   ├── mapper                   … CategoryMapper / ProductMapper / StockMapper（MapStruct）/ ProductDTOAssembler
 │   ├── category                 … CategoryService / CategoryServiceImpl
-│   └── product                  … ProductService / usecase（RegisterProduct / SearchProductByName）
+│   └── product                  … ProductService / usecase（RegisterProduct / SearchProductByName / UpdateProduct）
 └── presentation                … プレゼンテーション層
-    ├── product.controller       … RegisterProductController / SearchProductByNameController
-    ├── product.schema           … ProductCreateSchema / ProductCreateSchemaMapper
+    ├── product.controller       … RegisterProductController / SearchProductByNameController / UpdateProductController
+    ├── product.schema           … ProductCreateSchema / ProductCreateSchemaMapper / ProductUpdateSchema / ProductUpdateSchemaMapper
     ├── config                   … OpenApiConfig
     └── exception                … ApiExceptionHandler
 ```
@@ -189,7 +205,9 @@ spring:
 | GET | `/api/products/categories/{id}` | カテゴリ取得 |
 | GET | `/api/products/exists?name=...` | 商品名の重複確認（存在しなければ 204） |
 | GET | `/api/products/search?name=...` | 商品名で検索 |
+| GET | `/api/products/{id}` | 商品取得（変更用・編集画面の初期表示） |
 | POST | `/api/products` | 商品登録（成功時 201・Location ヘッダ） |
+| PUT | `/api/products/{id}` | 商品変更（成功時 200） |
 
 ### 例外とHTTPステータスの対応
 

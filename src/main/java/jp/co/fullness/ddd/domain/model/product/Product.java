@@ -113,6 +113,15 @@ public final class Product {
 
     /**
      * 商品名を変更する。
+     *
+     * <p>「商品を変更する」ユースケースで、既存商品の名称を新しい値に差し替えます。
+     * <br>商品名の妥当性(必須・最大文字数・前後トリムなど)は値オブジェクト
+     * {@link ProductName} が生成時に自己検証するため、本メソッドは非nullのみを保証します。
+     * <br>なお「同名商品の重複不可(自分自身を除く)」はドメイン単体では判定できないため、
+     * ユースケース層で {@code ProductRepository#findByName} を用いて検証します。
+     *
+     * @param newName 新しい商品名(値オブジェクト、非null)
+     * @throws DomainException {@code newName} が {@code null} の場合
      */
     public void rename(ProductName newName) {
         if (newName == null) throw new DomainException("商品名は必須です。");
@@ -121,6 +130,13 @@ public final class Product {
 
     /**
      * 単価を変更する。
+     *
+     * <p>「商品を変更する」ユースケースで、既存商品の単価を新しい値に差し替えます。
+     * <br>単価の範囲(50〜10,000)などの妥当性は値オブジェクト {@link ProductPrice} が
+     * 生成時に自己検証するため、本メソッドは非nullのみを保証します。
+     *
+     * @param newPrice 新しい商品単価(値オブジェクト、非null)
+     * @throws DomainException {@code newPrice} が {@code null} の場合
      */
     public void reprice(ProductPrice newPrice) {
         if (newPrice == null) throw new DomainException("商品単価は必須です。");
@@ -130,7 +146,13 @@ public final class Product {
     /**
      * 在庫数を変更する。
      *
-     * @param newQty 新しい在庫数
+     * <p>「商品を変更する」ユースケースで、集約が保持する在庫({@link Stock})の数量を変更します。
+     * <br>数量の範囲(0〜100)などの妥当性は値オブジェクト {@link StockQuantity} が生成時に
+     * 自己検証します。既存の {@link Stock} の同一性(StockId)は保持したまま数量だけを書き換えるため、
+     * 更新時に在庫行のIDは変わりません。
+     *
+     * @param newQty 新しい在庫数(値オブジェクト、非null)
+     * @throws DomainException 在庫が未設定(未 {@code attachStock})の場合
      */
     public void changeStock(StockQuantity newQty) {
         ensureStockAttached();

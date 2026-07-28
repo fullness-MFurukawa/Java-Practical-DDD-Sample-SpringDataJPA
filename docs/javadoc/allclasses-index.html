@@ -213,6 +213,15 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">product_stock テーブルにマッピングする JPA エンティティ（永続化モデル）。</div>
 </div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="jp/co/fullness/ddd/presentation/product/schema/ProductUpdateSchema.html" title="jp.co.fullness.ddd.presentation.product.schema内のクラス">ProductUpdateSchema</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="block">📦 商品変更リクエスト受信用スキーマ（入力DTO）。</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="jp/co/fullness/ddd/presentation/product/schema/ProductUpdateSchemaMapper.html" title="jp.co.fullness.ddd.presentation.product.schema内のインタフェース">ProductUpdateSchemaMapper</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="block">プレゼンテーション層の <a href="jp/co/fullness/ddd/presentation/product/schema/ProductUpdateSchema.html" title="jp.co.fullness.ddd.presentation.product.schema内のクラス"><code>ProductUpdateSchema</code></a> を、アプリケーション層の
+ <a href="jp/co/fullness/ddd/application/dto/ProductDTO.html" title="jp.co.fullness.ddd.application.dto内のクラス"><code>ProductDTO</code></a> へ変換する腐敗防止層（ACL）アダプタ。</div>
+</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="jp/co/fullness/ddd/presentation/product/controller/RegisterProductController.html" title="jp.co.fullness.ddd.presentation.product.controller内のクラス">RegisterProductController</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">============================================================================
@@ -277,12 +286,28 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">DTOや外部データ構造からドメインエンティティを再構築するためのAdapterインターフェイス。</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab6"><a href="jp/co/fullness/ddd/application/annotation/UseCase.html" title="jp.co.fullness.ddd.application.annotation内の注釈インタフェース">UseCase</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab6">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="jp/co/fullness/ddd/presentation/product/controller/UpdateProductController.html" title="jp.co.fullness.ddd.presentation.product.controller内のクラス">UpdateProductController</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">============================================================================
+ 【プレゼンテーション層：UpdateProductController】
+ ============================================================================
+ 🎯 役割
+ - ユースケース「商品を変更する」を実現するエンドポイント群を提供する。</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="jp/co/fullness/ddd/application/product/usecase/interactor/UpdateProductInteractor.html" title="jp.co.fullness.ddd.application.product.usecase.interactor内のクラス">UpdateProductInteractor</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block"><b>ユースケース実装(Interactor)</b>: <a href="jp/co/fullness/ddd/application/product/usecase/UpdateProductUsecase.html" title="jp.co.fullness.ddd.application.product.usecase内のインタフェース"><code>UpdateProductUsecase</code></a>。</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="jp/co/fullness/ddd/application/product/usecase/UpdateProductUsecase.html" title="jp.co.fullness.ddd.application.product.usecase内のインタフェース">UpdateProductUsecase</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block"><b>ユースケース: 商品を変更する</b> を実現するアプリケーション層のインターフェイス。</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab6"><a href="jp/co/fullness/ddd/application/annotation/UseCase.html" title="jp.co.fullness.ddd.application.annotation内の注釈インタフェース">UseCase</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab6">
 <div class="block">ユースケース（アプリケーションサービス）であることを示すステレオタイプ・アノテーション。</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="jp/co/fullness/ddd/presentation/config/WebConfig.html" title="jp.co.fullness.ddd.presentation.config内のクラス">WebConfig</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="jp/co/fullness/ddd/presentation/config/WebConfig.html" title="jp.co.fullness.ddd.presentation.config内のクラス">WebConfig</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">ルート（/）を Swagger UI へリダイレクトする設定。</div>
 </div>
 </div>
