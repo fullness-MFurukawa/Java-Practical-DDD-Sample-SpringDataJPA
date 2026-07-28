@@ -42,3 +42,28 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+javadoc {
+    // --- 文字コード（日本語対応。3つとも UTF-8 に揃えるのが要点）---
+    options.encoding    = 'UTF-8'   // ソース(.java)の読み込みエンコーディング
+    options.charSet     = 'UTF-8'   // 生成HTMLの <meta charset>
+    options.docEncoding = 'UTF-8'   // 生成HTMLの書き出しエンコーディング
+
+    // --- 見た目・範囲 ---
+    title = '商品管理API (Spring Data JPA版) — ドメイン駆動設計 実践サンプル'
+    options.locale = 'ja_JP'                 // 生成UIの言語（"パッケージ" 等の見出しを日本語に）
+    options.memberLevel = JavadocMemberLevel.PROTECTED  // public/protected を対象（private は除外）
+    options.addBooleanOption('author', true) // @author を出力
+    options.addBooleanOption('version', true)// @version / @since を出力
+
+    // --- doclint 無効化（@param 等の不足でビルドを止めない）---
+    options.addStringOption('Xdoclint:none', '-quiet')
+
+    // --- 外部 JavaDoc へのリンク（型名からリンクを張る）---
+    options.links(
+        'https://docs.oracle.com/en/java/javase/21/docs/api/'
+    )
+
+    // 警告を減らしたい場合（任意）
+    options.addStringOption('quiet')
+}
