@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.fullness.ddd.infrastructure.category.ProductCategoryEntity;
+import jp.co.fullness.ddd.infrastructure.category.CategoryEntity;
 import jp.co.fullness.ddd.infrastructure.stock.ProductStockEntity;
 
 /**
@@ -91,7 +91,7 @@ class ProductJpaRepositoryTest {
         @DisplayName("新規商品を在庫つきで保存すると、cascade で在庫も永続化される")
         void save_cascadesStock() {
             // 既存商品から実在するカテゴリエンティティを借りる（外部キー）
-            ProductCategoryEntity category =
+            CategoryEntity category =
                     productJpaRepository.findByName(EXISTING_NAME).orElseThrow().getCategory();
             ProductEntity pe = new ProductEntity();
             pe.setProductUuid(UUID.randomUUID().toString());
@@ -120,7 +120,7 @@ class ProductJpaRepositoryTest {
         @DisplayName("保存済みエンティティの名称・単価・在庫数を変更し save すると、取り直しで反映される")
         void update_managedEntity() {
             // 更新対象を登録する（既存カテゴリを借りる）
-            ProductCategoryEntity category =
+            CategoryEntity category =
                     productJpaRepository.findByName(EXISTING_NAME).orElseThrow().getCategory();
 
             ProductEntity pe = new ProductEntity();

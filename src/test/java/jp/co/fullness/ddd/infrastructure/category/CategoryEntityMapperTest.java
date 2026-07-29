@@ -26,8 +26,8 @@ class CategoryEntityMapperTest {
     private CategoryEntityMapper mapper;
 
     /** ProductCategoryEntity は同一パッケージなので import 不要 */
-    private ProductCategoryEntity entity(String categoryUuid, String name) {
-        ProductCategoryEntity e = new ProductCategoryEntity();
+    private CategoryEntity entity(String categoryUuid, String name) {
+        CategoryEntity e = new CategoryEntity();
         e.setCategoryUuid(categoryUuid);
         e.setName(name);
         return e;

@@ -24,7 +24,7 @@ import jp.co.fullness.ddd.domain.model.product.ProductPrice;
 import jp.co.fullness.ddd.domain.model.stock.Stock;
 import jp.co.fullness.ddd.domain.model.stock.StockQuantity;
 import jp.co.fullness.ddd.infrastructure.category.CategoryEntityMapper;
-import jp.co.fullness.ddd.infrastructure.category.ProductCategoryEntity;
+import jp.co.fullness.ddd.infrastructure.category.CategoryEntity;
 import jp.co.fullness.ddd.infrastructure.stock.ProductStockEntity;
 import jp.co.fullness.ddd.infrastructure.stock.StockEntityMapper;
 
@@ -70,7 +70,7 @@ class ProductAssemblerTest {
     /** category / stock を関連づけた ProductEntity を組み立てる */
     private ProductEntity entityWithRelations() {
         ProductEntity e = new ProductEntity();
-        e.setCategory(new ProductCategoryEntity());
+        e.setCategory(new CategoryEntity());
         e.assignStock(new ProductStockEntity());
         return e;
     }
@@ -115,7 +115,7 @@ class ProductAssemblerTest {
         @DisplayName("stock が紐づいていないなら例外")
         void nullStock() {
             ProductEntity e = new ProductEntity();
-            e.setCategory(new ProductCategoryEntity());   // category はあるが stock が null
+            e.setCategory(new CategoryEntity());   // category はあるが stock が null
             assertThrows(DomainException.class, () -> assembler.assemble(e));
         }
     }

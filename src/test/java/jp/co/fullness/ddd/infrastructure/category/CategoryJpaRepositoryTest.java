@@ -44,11 +44,11 @@ class CategoryJpaRepositoryTest {
         @DisplayName("実在する category_uuid でカテゴリを取得できる")
         void existing() {
             // サンプルデータから実在する1件を取り、その UUID で引き直す
-            List<ProductCategoryEntity> all = repository.findAll();
+            List<CategoryEntity> all = repository.findAll();
             assertFalse(all.isEmpty(), "サンプルのカテゴリが存在すること");
-            ProductCategoryEntity sample = all.get(0);
+            CategoryEntity sample = all.get(0);
 
-            Optional<ProductCategoryEntity> found = repository.findByCategoryUuid(sample.getCategoryUuid());
+            Optional<CategoryEntity> found = repository.findByCategoryUuid(sample.getCategoryUuid());
 
             assertTrue(found.isPresent());
             assertEquals(sample.getId(), found.get().getId());

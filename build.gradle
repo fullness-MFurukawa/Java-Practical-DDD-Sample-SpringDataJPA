@@ -37,6 +37,9 @@ dependencies {
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
 	// Swagger UI 同梱。Spring Boot 4（Spring Framework 7）対応版。
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
+
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	testAnnotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 }
 
 tasks.named('test') {

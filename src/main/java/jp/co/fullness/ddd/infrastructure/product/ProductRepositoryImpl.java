@@ -11,7 +11,7 @@ import jp.co.fullness.ddd.domain.model.product.Product;
 import jp.co.fullness.ddd.domain.model.product.ProductId;
 import jp.co.fullness.ddd.domain.model.product.ProductName;
 import jp.co.fullness.ddd.domain.model.product.ProductRepository;
-import jp.co.fullness.ddd.infrastructure.category.ProductCategoryEntity;
+import jp.co.fullness.ddd.infrastructure.category.CategoryEntity;
 import jp.co.fullness.ddd.infrastructure.category.CategoryJpaRepository;
 import jp.co.fullness.ddd.infrastructure.exception.InternalException;
 import jp.co.fullness.ddd.infrastructure.stock.ProductStockEntity;
@@ -49,7 +49,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         try {
             // カテゴリUUID → 実在するカテゴリエンティティ（外部キー参照）を解決
             String categoryUuid = assembler.extractCategoryUuid(product);
-            ProductCategoryEntity categoryEntity = categoryJpaRepository.findByCategoryUuid(categoryUuid)
+            CategoryEntity categoryEntity = categoryJpaRepository.findByCategoryUuid(categoryUuid)
                     .orElseThrow(() -> new DomainException("指定された商品カテゴリが存在しません。"));
 
             ProductEntity pe = assembler.toProductEntity(product);

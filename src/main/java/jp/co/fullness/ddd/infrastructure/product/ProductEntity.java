@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import jp.co.fullness.ddd.infrastructure.category.ProductCategoryEntity;
+import jp.co.fullness.ddd.infrastructure.category.CategoryEntity;
 import jp.co.fullness.ddd.infrastructure.stock.ProductStockEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -50,7 +50,7 @@ public class ProductEntity {
     /** 多商品 → 1カテゴリ。別集約なので参照のみ（cascade しない）。 */
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
-    private ProductCategoryEntity category;
+    private CategoryEntity category;
 
     /**
      * 1商品 → 1在庫。集約内部なので {@code cascade = ALL} で一括保存・削除する。
