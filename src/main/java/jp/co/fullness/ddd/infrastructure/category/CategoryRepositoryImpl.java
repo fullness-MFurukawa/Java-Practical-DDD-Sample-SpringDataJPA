@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.fullness.ddd.domain.exception.DomainException;
+import jp.co.fullness.ddd.domain.mapper.ToDomainMapper;
 import jp.co.fullness.ddd.domain.model.category.Category;
 import jp.co.fullness.ddd.domain.model.category.CategoryId;
 import jp.co.fullness.ddd.domain.model.category.CategoryRepository;
@@ -26,12 +27,12 @@ import jp.co.fullness.ddd.infrastructure.exception.InternalException;
 @Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
 
-    private final CategoryJpaRepository categoryJpaRepository;
-    private final CategoryEntityMapper mapper;
+    private final CategoryJpaRepository repository;
+    private final ToDomainMapper<CategoryEntity , Category> mapper;
 
     public CategoryRepositoryImpl(CategoryJpaRepository categoryJpaRepository,
-                                  CategoryEntityMapper mapper) {
-        this.categoryJpaRepository = categoryJpaRepository;
+                                  ToDomainMapper<CategoryEntity , Category> mapper) {
+        this.repository = categoryJpaRepository;
         this.mapper = mapper;
     }
 
@@ -48,7 +49,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             throw new DomainException("商品カテゴリIdは必須です。");
         }
         try {
-            return categoryJpaRepository.findByCategoryUuid(categoryId.value())
+            return repository.findByCategoryUuid(categoryId.value())
                     .map(mapper::toDomain);
         } catch (DomainException ex) {
             throw ex;
@@ -68,7 +69,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Transactional(readOnly = true)
     public List<Category> findAll() {
         try {
-            return categoryJpaRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
+            return repository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                     .map(mapper::toDomain)
                     .toList();
         } catch (DomainException ex) {
